@@ -14,13 +14,12 @@ class App extends React.Component {
   }
 
   search(term) {
-    console.log(`${term} was searched`);
+    // console.log(`${term} was searched`);
     // TODO
     $.post('http://localhost:1128/repos', {
-      username: term,
-      test: 'woo'
+      username: term
     })
-      .done(console.log('Just sent a POST request to the server! The term was ', term))
+    // .done(console.log('Just sent a POST request to the server! The term was ', term))
   }
 
   render() {
