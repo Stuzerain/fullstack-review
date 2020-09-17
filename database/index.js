@@ -13,10 +13,7 @@ let repoSchema = new mongoose.Schema({
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = (data) => {
-  // TODO: Your code here
-  // This function should save a repo or repos to
-  // the MongoDB
+let save = (data) => { // This function should save a repo or repos to the MongoDB
 
   Repo.findOne({ url: data.html_url }, (err, example) => { // check if database already contains repo with matching url
     if (err) { //check for eror on lookup
@@ -33,17 +30,30 @@ let save = (data) => {
           description: data.description,
           watchers: data.watchers_count,
           language: data.language
-        })
+        });
 
       instance.save((err, inst) => {
         if (err) {
-          throw 'error saving to db'
+          throw 'error saving to db';
         } else {
-          console.log('repo saved successfully');
+          // console.log('repo saved successfully');
         }
-      })
+      });
     }
-  })
+  });
 }
 
+// let showSorted = (req, res) => { // function to return a sorted array by 'top' criteria (watchers)
+//   Repo.find({}, (err, result) => {
+//     if (err) {
+//       throw 'error sorting and returning data';
+//     } else {
+//       res.json(result);
+//     }
+//   })
+//     .sort({ watchers: -1 }); // sorts by watchers, -1 means descending order
+// }
+
+module.exports.repo = Repo;
 module.exports.save = save;
+// module.exports.showSorted = showSorted;

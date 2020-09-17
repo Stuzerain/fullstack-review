@@ -10,23 +10,44 @@ class App extends React.Component {
     this.state = {
       repos: []
     }
-
+    this.refresh = this.refresh.bind(this)
   }
 
   search(term) {
     // console.log(`${term} was searched`);
-    // TODO
+    // debugger;
     $.post('http://localhost:1128/repos', {
       username: term
     })
-    // .done(console.log('Just sent a POST request to the server! The term was ', term))
+      .done(this.refresh())
+  }
+
+  refresh() {
+    // debugger;
+    $.get('http://localhost:1128/repos')
+      .done((results) => {
+        // debugger;
+        // console.log('these are our results baby ', results);
+        console.log(this.state)
+        console.log('STATE UPDATE ABOUT TO HAPPEN')
+        this.setState({
+          repos: results
+        });
+        console.log(this.state)
+      });
+  }
+
+  componentDidMount() {
+    this.refresh();
   }
 
   render() {
     return (<div>
       <h1>Github Fetcher</h1>
-      <RepoList repos={this.state.repos} />
       <Search onSearch={this.search.bind(this)} />
+      {/* { this.state && this.state.repos[0] && */}
+      <RepoList repos={this.state.repos} />
+      {/* } */}
     </div>)
   }
 }
